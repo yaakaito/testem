@@ -99,6 +99,30 @@ describe('Config', function(){
 		browser_launcher.getAvailableBrowsers = getAvailableBrowsers
 	})
 
+	it('should getLaunchers should ignore browser that it in ignore_browsers', function(){
+		stub(config, 'getWantedLaunchers', function(n){return n})
+		stub(config, 'get', function(key){ 
+			if (key === 'ignore_browsers') return ['Chrome']
+			return null 
+		})
+		var getAvailableBrowsers = browser_launcher.getAvailableBrowsers
+		var availableBrowsers = [
+			{name: 'Chrome'}
+			, {name: 'Firefox'}
+		]
+		browser_launcher.getAvailableBrowsers = function(cb){
+			cb(availableBrowsers)
+		}
+		var cb = spy()
+		config.getLaunchers({}, cb)
+		expect(cb.called).to.be.ok
+		var launchers = cb.args[0][0]
+		expect(launchers.chrome).to.be.undefined
+		expect(launchers.firefox.name).to.equal('Firefox')
+		browser_launcher.getAvailableBrowsers = getAvailableBrowsers
+		config.get.restore()
+	})
+
 	it('should install custom launchers', function(){
 		stub(config, 'getWantedLaunchers', function(n){return n})
 		var launchers = {
