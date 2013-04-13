@@ -42,7 +42,9 @@ You need [Node](http://nodejs.org/) version 0.6.2 or later installed on your sys
 
 Once you have Node installed:
 
-    npm install testem -g
+    git clone https://github.com/yaakaito/testem.git
+    cd testem
+    npm link
     
 This will install the `testem` executable globally on your system.
 
