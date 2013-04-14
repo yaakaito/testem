@@ -260,6 +260,9 @@ window.Testem = {
         adapter(socket)
     }
     , emit: function(evt){
+        if (evt === 'all-test-results') {
+            socket.emit('coverage', {});
+        }
         socket.emit.apply(socket, arguments)
         if (this.evtHandlers && this.evtHandlers[evt]){
             var handlers = this.evtHandlers[evt]
