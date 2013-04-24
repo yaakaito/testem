@@ -261,7 +261,14 @@ window.Testem = {
     }
     , emit: function(evt){
         if (evt === 'all-test-results') {
-            socket.emit('coverage', {});
+            if (_$jscoverage) {
+                var coverage = _$jscoverage;
+                var sources = {}
+                for (filename in coverage) {
+                    sources[filename] = coverage[filename]['source'];
+                }
+                socket.emit('coverage', _$jscoverage, sources);                
+            }
         }
         socket.emit.apply(socket, arguments)
         if (this.evtHandlers && this.evtHandlers[evt]){
