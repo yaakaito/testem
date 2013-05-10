@@ -261,7 +261,7 @@ window.Testem = {
     }
     , emit: function(evt){
         if (evt === 'all-test-results') {
-            if (_$jscoverage) {
+            if (window._$jscoverage != undefined) {
                 var coverage = _$jscoverage;
                 var sources = {}
                 for (filename in coverage) {
